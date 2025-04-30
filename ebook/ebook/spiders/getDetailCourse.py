@@ -20,21 +20,12 @@ class GetDetailCourseSpider(scrapy.Spider):
             photoFounder = course.css('img.course-block__author-image::attr(src)').get()
             authorCourse = course.css('p.course-block__author-name::text').get()
             authorOccupation = course.css('p.course-block__author-occupation::text').get()
-
+            authorOccupation = authorOccupation.strip() if authorOccupation else None
+            
             print(f"Title Course: {titleCourse}")
             print(f"Description Course: {cleanDataDescription}")
             print(f"Duration Course: {cleanDataDuration}")
             print(f"Photo Founder: {photoFounder}")
             print(f"Author Course : {authorCourse}")
             print(f"Author Ocuppation : {authorOccupation}")
-
-            yield {
-                'titleCourse': titleCourse,
-                'description': cleanDataDescription,
-                'duration': cleanDataDuration,
-                'photoFounder': photoFounder,
-                'authorCourse': authorCourse,
-                'authorOccupation': authorOccupation
-            }
-
         print("[============================== END SCRAPING ==============================]")

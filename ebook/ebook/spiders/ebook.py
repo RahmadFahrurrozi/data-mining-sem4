@@ -15,10 +15,5 @@ class EbookSpider(scrapy.Spider):
             stock = ' '.join([s.strip() for s in stock if s.strip()])
             
             print(f"Nama Buku: {namaBuku},\nHarga Buku: {hargaBuku},\nGambar Buku: {gambarBuku},\nStok: {stock}")
-            yield {
-                'namaBuku': namaBuku,
-                'hargaBuku': hargaBuku,
-                'stok': stock,
-                'gambarBuku': gambarBuku
-            }
+          
         print("[============================== END SCRAPING ==============================]")
