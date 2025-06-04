@@ -1,14 +1,11 @@
 import scrapy
 
+#pagination with button next trigger
 
-#pagination with add url
-
-class PaginationSpider(scrapy.Spider):
-    name = "pagination"
+class Pagination2Spider(scrapy.Spider):
+    name = "pagination2"
     allowed_domains = ["books.toscrape.com"]
-    start_urls = ["https://books.toscrape.com/catalogue/category/books/mystery_3/index.html",
-    "https://books.toscrape.com/catalogue/category/books/mystery_3/page-2.html",
-    ]
+    start_urls = ["https://books.toscrape.com/catalogue/category/books/sequential-art_5"]
 
     def parse(self, response):
         print("[============================== START SCRAPING ==============================]")
@@ -23,3 +20,9 @@ class PaginationSpider(scrapy.Spider):
             print(f"Nama Buku: {namaBuku},\nHarga Buku: {hargaBuku},\nStok: {stock}")
           
         print("[============================== END SCRAPING ==============================]")
+
+        # Get the href attribute of the next button
+        next_button_href = response.css('li.next a::attr(href)').get()
+        if next_button_href is not None:
+            yield response.follow(next_button_href, self.parse)
+        

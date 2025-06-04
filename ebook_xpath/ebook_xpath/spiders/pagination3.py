@@ -1,14 +1,10 @@
 import scrapy
 
 
-#pagination with add url
-
-class PaginationSpider(scrapy.Spider):
-    name = "pagination"
+class Pagination3Spider(scrapy.Spider):
+    name = "pagination3"
     allowed_domains = ["books.toscrape.com"]
-    start_urls = ["https://books.toscrape.com/catalogue/category/books/mystery_3/index.html",
-    "https://books.toscrape.com/catalogue/category/books/mystery_3/page-2.html",
-    ]
+    start_urls = ["https://books.toscrape.com/index.html"]
 
     def parse(self, response):
         print("[============================== START SCRAPING ==============================]")
@@ -23,3 +19,11 @@ class PaginationSpider(scrapy.Spider):
             print(f"Nama Buku: {namaBuku},\nHarga Buku: {hargaBuku},\nStok: {stock}")
           
         print("[============================== END SCRAPING ==============================]")
+        next_page = response.css('li.next a::attr(href)').get()
+        if next_page is not None:
+            yield response.follow(next_page, self.parse)
+        yield {
+            'namaBuku': namaBuku,
+            'hargaBuku': hargaBuku,
+            'stock': stock
+        }
